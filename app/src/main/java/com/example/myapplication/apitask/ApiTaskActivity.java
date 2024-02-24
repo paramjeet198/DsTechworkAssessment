@@ -37,8 +37,7 @@ public class ApiTaskActivity extends AppCompatActivity {
         binding.recyclerView.setAdapter(adapter);
 
 
-        ApiClient client = ApiClient.getInstance();
-        ApiService apiService = client.getApiService();
+        ApiService apiService = ApiClient.getInstance().getApiService();
         callApi(apiService);
 
 
