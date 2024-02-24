@@ -1,18 +1,18 @@
 package com.example.myapplication.videotask;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.media3.common.MediaItem;
-import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.apitask.model.User;
-import com.example.myapplication.databinding.UserItemBinding;
+import com.bumptech.glide.Glide;
 import com.example.myapplication.databinding.VideoItemBinding;
 import com.example.myapplication.videotask.model.Video;
 
@@ -44,13 +44,30 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
     @Override
     public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
         Video item = videos.get(position);
-        holder.binding.videoTitle.setText(item.getTitle());
+        holder.binding.videoTitle.setText(item.getName());
+        holder.binding.videoDuration.setText(convertMillisToMinSec(item.getDuration()));
+        Glide.with(context)
+                .load(item.getThumbnail())
+                .into(holder.binding.thumbnail);
 
-        setupPlayer(item.getUrl(), context, holder.binding.playerview);
+
+
+//        setupPlayer(item.getUri(), context, holder.binding.playerview);
 
     }
 
-    void setupPlayer(String url, Context context, PlayerView playerView) {
+    @SuppressLint("DefaultLocale")
+    public static String convertMillisToMinSec(long millis) {
+        long seconds = millis / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+
+        String format = "%d:%02d";
+        return String.format(format, minutes, seconds);
+    }
+
+
+    void setupPlayer(Uri url, Context context, PlayerView playerView) {
         ExoPlayer player = new ExoPlayer.Builder(context).build();
         playerView.setPlayer(player);
         MediaItem mediaItem = MediaItem.fromUri(url);
@@ -68,13 +85,14 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     @Override
     public void onViewRecycled(@NonNull VideoViewHolder holder) {
-
+//        releasePlayer(holder.binding.playerview);
         super.onViewRecycled(holder);
     }
 
     @Override
     public int getItemCount() {
-        return videos.size();
+//        return videos.size();
+        return 10;
     }
 
     public class VideoViewHolder extends RecyclerView.ViewHolder {

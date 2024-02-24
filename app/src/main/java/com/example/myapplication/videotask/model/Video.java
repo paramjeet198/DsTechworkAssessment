@@ -1,27 +1,60 @@
 package com.example.myapplication.videotask.model;
 
+import android.graphics.Bitmap;
+import android.net.Uri;
+
 public class Video {
-    private String url;
-    private String title;
+    private  Uri uri;
+    private  String name;
+    private  int duration;
+    private  int size;
+    private Bitmap thumbnail;
 
-    public Video(String url, String title) {
-        this.url = url;
-        this.title = title;
+    public Video(Uri uri, String name, int duration, int size, Bitmap thumbnail) {
+        this.uri = uri;
+        this.name = name;
+        this.duration = duration;
+        this.size = size;
+        this.thumbnail = thumbnail;
     }
 
-    public String getUrl() {
-        return url;
+    public Uri getUri() {
+        return uri;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUri(Uri uri) {
+        this.uri = uri;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+
+    public Bitmap getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(Bitmap thumbnail) {
+        this.thumbnail = thumbnail;
     }
 }
