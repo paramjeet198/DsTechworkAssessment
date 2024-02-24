@@ -1,6 +1,6 @@
-package com.example.myapplication.api;
+package com.example.myapplication.apitask.api;
 
-import com.example.myapplication.model.User;
+import com.example.myapplication.apitask.model.User;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.apitask;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -7,7 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.databinding.UserItemBinding;
-import com.example.myapplication.model.User;
+import com.example.myapplication.apitask.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
