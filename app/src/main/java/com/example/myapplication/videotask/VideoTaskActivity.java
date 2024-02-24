@@ -9,10 +9,16 @@ import android.os.Bundle;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityVideoTaskBinding;
+import com.example.myapplication.videotask.model.Video;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class VideoTaskActivity extends AppCompatActivity {
 
     private ActivityVideoTaskBinding binding;
+    String url1 = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
+    String url2 = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,11 +28,12 @@ public class VideoTaskActivity extends AppCompatActivity {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        String url1 = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4";
-        String url2 = "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
-        ExoPlayer player = new ExoPlayer.Builder(this).build();
-        MediaItem mediaItem = MediaItem.fromUri(url1);
+        List<Video> videos = new ArrayList<>();
+        videos.add(new Video(url1,"URL 1"));
+        videos.add(new Video(url2,"URL 2"));
 
+        VideoAdapter adapter = new VideoAdapter(videos,this);
+        binding.recyclerView.setAdapter(adapter);
 
     }
 }

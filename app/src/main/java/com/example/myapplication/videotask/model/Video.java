@@ -1,10 +1,20 @@
 package com.example.myapplication.videotask.model;
 
 public class Video {
+    private String url;
     private String title;
 
-    public Video(String title) {
+    public Video(String url, String title) {
+        this.url = url;
         this.title = title;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public String getTitle() {
