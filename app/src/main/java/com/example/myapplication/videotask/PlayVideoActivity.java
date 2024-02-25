@@ -1,15 +1,22 @@
 package com.example.myapplication.videotask;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.media3.common.MediaItem;
+import androidx.media3.common.Player;
 import androidx.media3.exoplayer.ExoPlayer;
 import androidx.media3.ui.PlayerView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.nfc.Tag;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.ActivityPlayVideoBinding;
@@ -26,13 +33,14 @@ public class PlayVideoActivity extends AppCompatActivity {
     public static final String TAG = "PlayVideoActivity";
     private ActivityPlayVideoBinding binding;
     private ExoPlayer player;
-    List<Video> videos = new ArrayList<>();
+    private List<Video> videos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPlayVideoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         Log.d(TAG, "onCreate");
 
@@ -63,13 +71,31 @@ public class PlayVideoActivity extends AppCompatActivity {
             MediaItem mediaItem = MediaItem.fromUri(Uri.parse(video.getUri()));
             mediaItems.add(mediaItem);
         }
-//        binding.title.setText("Title: "+ albumTitle);
         player.setMediaItems(mediaItems);
         player.prepare();
         player.getPlayWhenReady();
+
+        int currentItemIndex = player.getCurrentMediaItemIndex();
+        if (currentItemIndex >= 0 && currentItemIndex < videos.size()) {
+            Video currentVideo = videos.get(currentItemIndex);
+            binding.title.setText(currentVideo.getName());
+        }
+
+        player.addListener(new Player.Listener() {
+            @Override
+            public void onMediaItemTransition(@Nullable MediaItem mediaItem, int reason) {
+                int currentItemIndex = player.getCurrentMediaItemIndex();
+                if (currentItemIndex >= 0 && currentItemIndex < videos.size()) {
+                    Video currentVideo = videos.get(currentItemIndex);
+                    binding.title.setText(currentVideo.getName());
+                }
+            }
+        });
+
     }
 
-    public void releasePlayer(ExoPlayer player) {
+    public void releasePlayer() {
+        Log.d(TAG, "Player: " + player);
         if (player != null) {
 //            player.removeListener();
             player.release();
@@ -80,8 +106,8 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     @Override
     protected void onStart() {
-        initPlayer();
         Log.d(TAG, "onStart");
+        initPlayer();
         super.onStart();
     }
 
@@ -95,21 +121,22 @@ public class PlayVideoActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
-        releasePlayer(player);
         Log.d(TAG, "onPause");
+        releasePlayer();
+        super.onPause();
     }
 
     @Override
     protected void onStop() {
-        releasePlayer(player);
         Log.d(TAG, "onStop");
+        releasePlayer();
         super.onStop();
     }
 
     @Override
     protected void onDestroy() {
-        releasePlayer(player);
+        Log.d(TAG, "onDestroy");
+        releasePlayer();
         super.onDestroy();
     }
 }
