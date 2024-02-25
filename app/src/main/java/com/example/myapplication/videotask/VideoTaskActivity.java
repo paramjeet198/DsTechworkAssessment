@@ -88,7 +88,7 @@ public class VideoTaskActivity extends AppCompatActivity {
                 MediaStore.Video.Media.SIZE
         };
         String selection = MediaStore.Video.Media.DURATION + " >= ?";
-        String[] selectionArgs = new String[]{String.valueOf(TimeUnit.MILLISECONDS.convert(5, TimeUnit.MINUTES))
+        String[] selectionArgs = new String[]{String.valueOf(TimeUnit.MILLISECONDS.convert(30, TimeUnit.SECONDS))
         };
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
 
