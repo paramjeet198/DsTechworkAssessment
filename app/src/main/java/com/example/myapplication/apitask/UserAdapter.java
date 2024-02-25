@@ -38,6 +38,10 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         holder.binding.name.setText(item.name);
         holder.binding.email.setText(item.email);
         holder.binding.phone.setText(item.phone);
+
+        holder.binding.getRoot().setOnClickListener(v->{
+
+        });
     }
 
     @Override
