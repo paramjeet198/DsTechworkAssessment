@@ -92,13 +92,8 @@ public class VideoTaskActivity extends AppCompatActivity {
         };
         String sortOrder = MediaStore.Video.Media.DISPLAY_NAME + " ASC";
 
-        try (Cursor cursor = getApplicationContext().getContentResolver().query(
-                collection,
-                projection,
-                selection,
-                selectionArgs,
-                sortOrder
-        )) {
+        //try-with-resource
+        try (Cursor cursor = getApplicationContext().getContentResolver().query(collection, projection, selection, selectionArgs, sortOrder)) {
             // Cache column indices.
             int idColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media._ID);
             int nameColumn = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.DISPLAY_NAME);
