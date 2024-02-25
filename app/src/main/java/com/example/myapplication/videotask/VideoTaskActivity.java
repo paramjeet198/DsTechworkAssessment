@@ -123,7 +123,7 @@ public class VideoTaskActivity extends AppCompatActivity {
                         Log.e(TAG, e.toString());
                     }
                 }
-                videoList.add(new Video(contentUri, name, duration, size, thumbnail));
+                videoList.add(new Video(contentUri.toString(), name, duration, size, thumbnail));
             }
         }
 

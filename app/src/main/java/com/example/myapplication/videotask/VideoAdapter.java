@@ -2,9 +2,12 @@ package com.example.myapplication.videotask;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.media3.common.MediaItem;
@@ -15,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.myapplication.databinding.VideoItemBinding;
 import com.example.myapplication.videotask.model.Video;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +27,12 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
 
     private List<Video> videos = new ArrayList<>();
     private Context context;
+    private Gson gson;
 
     public VideoAdapter(List<Video> users, Context conext) {
         this.videos = users;
         this.context = conext;
+        gson = new Gson();
     }
 
     public void setData(List<Video> users) {
@@ -46,11 +52,17 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         Video item = videos.get(position);
         holder.binding.videoTitle.setText(item.getName());
         holder.binding.videoDuration.setText(convertMillisToMinSec(item.getDuration()));
+
         Glide.with(context)
                 .load(item.getThumbnail())
                 .into(holder.binding.thumbnail);
+        Log.d("VideoUri:", item.getUri().toString());
 
-
+        holder.binding.getRoot().setOnClickListener(v -> {
+            Intent intent = new Intent(context, PlayVideoActivity.class);
+            intent.putExtra("videoListJson", gson.toJson(videos.subList(position, videos.size())));
+            context.startActivity(intent);
+        });
 
 //        setupPlayer(item.getUri(), context, holder.binding.playerview);
 
@@ -66,28 +78,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHol
         return String.format(format, minutes, seconds);
     }
 
-
-    void setupPlayer(Uri url, Context context, PlayerView playerView) {
-        ExoPlayer player = new ExoPlayer.Builder(context).build();
-        playerView.setPlayer(player);
-        MediaItem mediaItem = MediaItem.fromUri(url);
-        player.setMediaItem(mediaItem);
-        player.prepare();
-        player.getPlayWhenReady();
-    }
-
-    public void releasePlayer(ExoPlayer player) {
-        if (player != null) {
-            player.release();
-            player = null;
-        }
-    }
-
-    @Override
-    public void onViewRecycled(@NonNull VideoViewHolder holder) {
-//        releasePlayer(holder.binding.playerview);
-        super.onViewRecycled(holder);
-    }
 
     @Override
     public int getItemCount() {

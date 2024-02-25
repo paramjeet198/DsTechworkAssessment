@@ -3,14 +3,16 @@ package com.example.myapplication.videotask.model;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 public class Video {
-    private  Uri uri;
+    private  String uri;
     private  String name;
     private  int duration;
     private  int size;
     private Bitmap thumbnail;
 
-    public Video(Uri uri, String name, int duration, int size, Bitmap thumbnail) {
+    public Video(String uri, String name, int duration, int size, Bitmap thumbnail) {
         this.uri = uri;
         this.name = name;
         this.duration = duration;
@@ -18,11 +20,11 @@ public class Video {
         this.thumbnail = thumbnail;
     }
 
-    public Uri getUri() {
+    public String getUri() {
         return uri;
     }
 
-    public void setUri(Uri uri) {
+    public void setUri(String uri) {
         this.uri = uri;
     }
 
@@ -56,5 +58,17 @@ public class Video {
 
     public void setThumbnail(Bitmap thumbnail) {
         this.thumbnail = thumbnail;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return "Video{" +
+                "uri=" + uri +
+                ", name='" + name + '\'' +
+                ", duration=" + duration +
+                ", size=" + size +
+                ", thumbnail=" + thumbnail +
+                '}';
     }
 }
